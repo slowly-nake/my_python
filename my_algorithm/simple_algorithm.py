@@ -5,7 +5,6 @@
 '''
 
 
-
 def quick_sort(li, orderly=True):
     '''
     oriderly:顺序或逆序
@@ -24,7 +23,5 @@ def quick_sort(li, orderly=True):
         if orderly:
             sort_li = quick_sort(left) + [temp] + quick_sort(right)
         else:
-            sort_li = quick_sort(right) + [temp] + quick_sort(left)
+            sort_li = quick_sort(right, orderly=False) + [temp] + quick_sort(left, orderly=False)
         return sort_li
-
-
