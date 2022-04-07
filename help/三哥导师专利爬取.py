@@ -9,7 +9,7 @@ import pandas as pd
 import requests
 
 # %%
-code_data = pd.read_excel(r'./上市公司绿色专利申请情况.xlsx', dtype=object)
+code_data = pd.read_excel(r'./上市公司绿色专利申请情况(1).xlsx', dtype=object)
 
 # %%
 
@@ -30,15 +30,15 @@ for i in range(len(temp.code)):
 
 url = 'http://emweb.securities.eastmoney.com/PC_HSF10/CompanySurvey/CompanySurveyAjax?'
 headers = {
+    'Connection': 'close',
     'User-Agent': 
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Safari/537.36 Edg/99.0.1150.46'
-    }
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Safari/537.36 Edg/99.0.1150.55'    }
 
 for i in range(len(temp)):
     params = {
         'type': 'web',
-        'code': temp.codee[i]
-        }
+            'code': temp.codee[i]
+            }
     results = requests.get(url=url,headers=headers, params=params).json()
     indt = results['jbzl']['sszjhhy'].split('-')
     temp.industry[i] = indt[0]
@@ -46,24 +46,25 @@ for i in range(len(temp)):
     p = (i/len(temp))*100
     p = str(p) + '%'
     print(p)
-    
-# %%
+
+
+    # %%
 new = temp.set_index(temp.code)
 new = new.drop(['code', 'codee'], axis=1)
 dr = new.to_dict()
 
-# %%
+    # %%
 li = list(code_data.Scode)
 code_data.Scode = [str(i) for i in li]
 
-# %%
+    # %%
 code_data['industry'] = ''
 code_data['subdivide'] = ''
 
-# %%
+    # %%
 for i in range(len(code_data)):
     code_data.industry[i] = dr['industry'][code_data.Scode[i]]
     code_data.subdivide[i] = dr['subdivide'][code_data.Scode[i]]
-    
-# %%
-code_data.to_excel(r'./finish_申请.xlsx')
+
+    # %%
+code_data.to_excel(r'./finish_申请（新）.xlsx')
