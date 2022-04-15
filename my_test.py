@@ -39,3 +39,21 @@
 # print(a.pop())
 #
 # print(a)
+
+
+def num_ways(steps: int, arr_len: int) -> int:
+    # write your code here
+    return dig(steps, arr_len, 0)
+
+
+def dig(steps, arr_len, pos):
+    if pos < 0 or pos >= arr_len or steps < pos:
+        return 0
+    if steps == 0:
+        return 1 if pos == 0 else 0
+    return dig(steps - 1, arr_len, pos - 1) + dig(steps - 1, arr_len, pos) + dig(steps - 1, arr_len, pos + 1)
+
+print(num_ways(4, 2))
+
+
+a =

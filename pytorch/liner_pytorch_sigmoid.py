@@ -5,39 +5,29 @@
 @Author:MING                #创建人
 '''
 import torch
-<<<<<<< HEAD
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-=======
 # device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 device = 'cpu'
->>>>>>> edf5294b9 (220523)
 print(device)
 x_data = torch.Tensor([[1.0], [2.0], [3.0]]).to(device)
-y_data = torch.Tensor([[2.0], [4.0], [6.0]]).to(device)
+y_data = torch.Tensor([[0], [0], [1]]).to(device)
 
-class Liner_Model(torch.nn.Module):
+class Model(torch.nn.Module):
     def __init__(self):
         super().__init__()
         self.linear = torch.nn.Linear(1, 1)
+        self.sigmoid = torch.nn.Sigmoid()
 
     def forward(self, x):
-        y_pred = self.linear(x)
+        y_pred = self.sigmoid(self.linear(x))
         return y_pred
 
 
 if __name__ == '__main__':
-    model = Liner_Model().to(device)
-<<<<<<< HEAD
-    criterion = torch.nn.MSELoss(size_average=True)
+    model = Model().to(device)
+    criterion = torch.nn.BCELoss(reduction='mean')
     optimizer = torch.optim.SGD(params=model.parameters(), lr=0.1)
 
-    for batch in range(10000):
-=======
-    criterion = torch.nn.MSELoss(reduction='mean')
-    optimizer = torch.optim.SGD(params=model.parameters(), lr=0.1)
-
-    for batch in range(100):
->>>>>>> edf5294b9 (220523)
+    for batch in range(1000):
         y_pred = model(x_data)
         loss = criterion(y_pred, y_data)
         print(batch, loss.data)
